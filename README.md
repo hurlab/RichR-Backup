@@ -8,7 +8,7 @@ R>2.15
 ## Installation
 ```   
 library(devtools)    
-install_github("hurlab/RrichR",build_vignettes = TRUE)
+install_github("hurlab/RrichR")
 ### Suggest use RStudio to run the command if you want to use build_vignettes
 ```
 ## Getting started
