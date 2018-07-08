@@ -15,7 +15,7 @@ install_github("hurlab/RrichR",build_vignettes = TRUE)
 ```
 library(RichR)
 ```  
-More detail please see [vignette](https://github.com/hurlab/RrichR/wiki)
+More detail please see [vignette](https://github.com/hurlab/RichR/wiki)
 ```    
 vignette("RrichR")
 ```   
