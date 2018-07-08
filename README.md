@@ -1,33 +1,38 @@
-# RrichR
-Functional Enrichment Analysis and Network Construction 
+## RichR
+For Functional Enrichment Analysis and Network Construction 
 
 ## Description  
-__RrichR__ is a package can be used for functional enrichment analysis and network construction based on enrichment analysis results. It supported almost all species pubished by ENSEMBL and included with Bioconductor   
+__RichR__ is an R package that provides an easy interface for functional enrichment analysis of differential expression analysis outcome (or even simple a gene set) as well as construction of a relation network from the enrichment analysis results. RichR supports all the species included in Ensembl and Ensembl Plant.   
+
 ## Dependencies  
 R>2.15
+
 ## Installation
 ```   
 library(devtools)    
-install_github("hurlab/RrichR")
-### Suggest use RStudio to run the command if you want to use build_vignettes
+install_github("hurlab/RichR")
+### We suggest the use of RStudio to run this command, if you want to use build_vignettes
 ```
+
 ## Getting started
 ```
 library(RichR)
 ```  
 More detail please see [vignette](https://github.com/hurlab/RichR/wiki)
 ```    
-vignette("RrichR")
+vignette("RichR")
 ```   
+
 ## Some useful commands
-If you want tranform ID from one type another type("SYMBOL"->"ENSEMBL")
+If you want convert IDs from one type to another (e.g. "SYMBOL"->"ENSEMBL"),
 ``` 
-idconvert(keys=vector_of_symbols,species="human",fkeytype= "SYMBOL",tkeytype="ENSEMBL")
+idconvert (keys=vector_of_symbols, species="human", fkeytype="SYMBOL", tkeytype="ENSEMBL")
 ```  
-If you want have more details include input data and enrichment results
+If you want to combine the enrichment analysis outcome with input data (expression matrix or gene list),
 ```  
-getdetail(enrichres,input_data)
+getdetail (enrichres, input_data)
 ```  
+
 ## Contact information
-I still working on this package and will add more functions here.   
-For any questions please contact guokai8@gmail.com  
+This package is under active development. Please, email any question or suggestion to guokai8@gmail.com. 
+
