@@ -18,7 +18,7 @@ You can do enrichment analysis for different type of annotation data (GO,KEGG,Re
 ## Quick tour
 ```{r}
 set.seed(1234)   
-library(EichR)   
+library(RichR)   
 # To check if your the current species if supported !!!
 showData()   
 showensemble()  
