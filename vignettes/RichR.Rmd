@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document describes how to use the EnrichR package.
+This document describes how to use the RichR package.
 Below is a simple manual for using the package
 
 ## Introduction
@@ -18,7 +18,7 @@ You can do enrichment analysis for different type of annotation data (GO,KEGG,Re
 ## Quick tour
 ```{r}
 set.seed(1234)   
-library(EnrichR)   
+library(EichR)   
 # To check if your the current species if supported !!!
 showData()   
 showensemble()  
