@@ -8,16 +8,16 @@ R>2.15
 ## Installation
 ```   
 library(devtools)    
-install_github("guokai8/EnrichR",build_vignettes = TRUE)
+install_github("hurlab/RrichR",build_vignettes = TRUE)
 ### Suggest use RStudio to run the command if you want to use build_vignettes
 ```
 ## Getting started
 ```
 library(RichR)
 ```  
-More detail please see [vignette](https://github.com/guokai8/EnrichR/wiki)
+More detail please see [vignette](https://github.com/hurlab/RrichR/wiki)
 ```    
-vignette("EnrichR")
+vignette("RrichR")
 ```   
 ## Some useful commands
 If you want tranform ID from one type another type("SYMBOL"->"ENSEMBL")
