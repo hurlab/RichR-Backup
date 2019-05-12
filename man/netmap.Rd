@@ -5,48 +5,54 @@
 \title{Plot network of Terms}
 \usage{
 netmap(df, rhs, top = 50, pvalue.cutoff = 0.05, padj.cutoff = NULL,
-  weightcut = 0.2, useTerm = TRUE, writeCyt = FALSE,
+  low = "orange", high = "red", weightcut = 0.2, useTerm = TRUE,
+  writeCyt = FALSE, cytoscapeFile = "network-file-for-cytoscape.txt",
   vertex.label.font = 2, vertex.label.color = "black",
   vertex.label.cex = 0.5, layout = layout.fruchterman.reingold,
-  visNet = FALSE, smooth = TRUE, nodeselect = FALSE, editvis = FALSE,
-  savevis = FALSE, savefig = FALSE, filename = "network", ...)
+  visNet = FALSE, smooth = TRUE, nodeselect = FALSE,
+  editvis = FALSE, savevis = FALSE, savefig = FALSE,
+  filename = "network", ...)
 }
 \arguments{
+\item{df}{DGE files (DESeq2 result files) or vector contains gene names}
+
+\item{rhs}{Enrichment analsyis result}
+
+\item{top}{number of Terms you want to display}
+
+\item{pvalue.cutoff}{the cut-off P value for selecting significant Terms}
+
+\item{padj.cutoff}{the cut-off P adjust value for selecting significant Terms}
+
+\item{low}{color used for small value}
+
+\item{high}{color used for large value}
+
+\item{weightcut}{the weight cut value for remove edges}
+
+\item{useTerm}{use the Term description or not(defalutTRUE)}
+
+\item{writeCyt}{export file for Cyt software}
+
+\item{vertex.label.color}{color of label(defaultblack)}
+
+\item{vertex.label.cex}{size of label(default0.5)}
+
+\item{layout}{layout format (defultlayout.fruchterman.reingold)}
+
+\item{visNet}{use VisNetwork method to display network(defaultFALSE)}
+
 \item{smooth}{use smooth edge for visNetwork}
 
-\item{nodeselect}{select some interesting node(default:FALSE)}
+\item{nodeselect}{select some interesting node(defaultFALSE)}
 
-\item{editvis}{choose to edit network(default:FALSE)}
+\item{editvis}{choose to edit network(defaultFALSE)}
 
 \item{savevis}{save visnetwork to html}
 
 \item{savefig}{save figure to pdf}
 
 \item{filename}{output filename}
-
-\item{df:}{DGE files (DESeq2 result files) or vector contains gene names}
-
-\item{rhs:}{Enrichment analsyis result}
-
-\item{pvalue.cutoff:}{the cut-off P value for selecting significant Terms}
-
-\item{padj.cutoff:}{the cut-off P adjust value for selecting significant Terms}
-
-\item{weightcut:}{the weight cut value for remove edges}
-
-\item{useTerm:}{use the Term description or not(defalut:TRUE)}
-
-\item{writeCyt:}{export file for Cyt software}
-
-\item{vertex.label.color:}{color of label(default:black)}
-
-\item{vertex.label.cex:}{size of label(default:0.5)}
-
-\item{layout:}{layout format (defult:layout.fruchterman.reingold)}
-
-\item{visNet:}{use VisNetwork method to display network(default:FALSE)}
-
-\item{top:}{number of Terms you want to display}
 }
 \description{
 Plot network of Terms

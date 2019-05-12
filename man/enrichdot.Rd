@@ -5,10 +5,27 @@
 \title{Display enrichment result By using dotchart}
 \usage{
 enrichdot(resultFis, top = 50, pvalue.cutoff = 0.05, order = FALSE,
-  padj.cutoff = NULL, fontsize.x = 10, fontsize.y = 10, usePadj = TRUE,
-  filename = NULL)
+  low = "lightpink", high = "red", alpha = 0.7, padj.cutoff = NULL,
+  fontsize.x = 10, fontsize.y = 10, usePadj = TRUE,
+  filename = NULL, width = 10, height = 8)
 }
 \arguments{
+\item{low}{color used for small value}
+
+\item{high}{color used for large value}
+
+\item{alpha}{alpha-transparency scales}
+
+\item{fontsize.x}{fontsize for x axis}
+
+\item{fontsize.y}{fontsize for y axis}
+
+\item{filename}{output filename}
+
+\item{width}{width for output file}
+
+\item{height}{height for output file}
+
 \item{resultFis:}{Ennrichment analysis result data.frame}
 
 \item{top:}{Number of Terms you want to display}

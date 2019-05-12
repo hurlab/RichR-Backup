@@ -4,12 +4,12 @@
 \alias{makeKOdat}
 \title{make KEGG annotation data function}
 \usage{
-makeKOdat(species = "human", keytype = "ENTREZID")
+makeKOdat(species = "human", keytype = "ENTREZID", builtin = TRUE)
 }
 \arguments{
-\item{species:}{you can check the support species by using showData()}
+\item{species}{you can check the support species by using showData()}
 
-\item{keytype:}{the gene type}
+\item{keytype}{the gene ID type}
 }
 \description{
 make KEGG annotation data function
