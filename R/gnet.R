@@ -1,7 +1,38 @@
-gnet<-function (df, rhs, top = 50, pvalue.cutoff = 0.05, padj.cutoff = NULL,
-                weightcut = 0.2, useTerm = TRUE, writeCyt = FALSE,cytoscapeFile = "network-file-for-cytoscape.txt", vertex.label.font = 2,
-                vertex.label.color = "black", vertex.label.cex = 0.5, layout = layout.fruchterman.reingold,savefig=FALSE,filename="network",
-                width=7,height=7,...)
+##' @name gnet
+##' @title Draw network with ggplot2 style
+##' @description gnet provides method to draw the enrichment results with a ggplot2 style network
+##' @rdname gnet
+##' @importFrom GGally ggnet2
+##' @importFrom ggrepel geom_text_repel
+##' @importFrom reshape2 melt
+##' @param df Differential expression result or vector of genes
+##' @param rhs Enrichment results
+##' @param top number of terms to show (default: 50)
+##' @param pvalue.cutoff cutoff p value for enrichment result
+##' @param padj.cutoff cutoff p adjust value for enrichment result
+##' @param low color used for small value
+##' @param high color used for large value
+##' @param weightcut cutoff value for the edges
+##' @param useTerm use terms for nodes (default: TRUE)
+##' @param writeCyt write out the cytoscape file
+##' @param cytoscapeFile output cytoscape File
+##' @param segment.size size for label segment
+##' @param vertex.label.color label color
+##' @param vertex.label.cex label size
+##' @param vertex.node.shape vector of shape and names of the vector should be the terms (default: 20)
+##' @param layout layout method
+##' @param savefig save figures or not
+##' @param filename output figure name
+##' @param width width for output figure
+##' @param height height for output figure
+##' @param node.alpha alpha-transparency scales
+##' @export
+##' @author Kai Guo
+
+gnet<-function (df, rhs, top = 50, pvalue.cutoff = 0.05, padj.cutoff = NULL,low = "orange",high = "red",
+                weightcut = 0.2, useTerm = TRUE, writeCyt = FALSE,cytoscapeFile = "network-file-for-cytoscape.txt",
+                vertex.label.color = "black", vertex.label.cex = 2,vertex.node.shape=NULL, layout = layout.fruchterman.reingold,savefig=FALSE,filename="network",
+                width=7,height=7,segment.size=0.2,node.alpha=0.7,...)
 {
   options(stringsAsFactors = F)
   suppressMessages(library(reshape2))
@@ -83,7 +114,7 @@ gnet<-function (df, rhs, top = 50, pvalue.cutoff = 0.05, padj.cutoff = NULL,
     idx <- unlist(sapply(V(g)$name, function(x) which(x ==
                                                         rownames(rhs))))
   }
-  cols <- .color_scale("red", "orange")
+  cols <- .color_scale(high, low)
   V(g)$color <- cols[sapply(pvalue, .getIdx, min(pvalue), max(pvalue))]
   g <- igraph::delete.edges(g, E(g)[wn[, 3] < weightcut])
   gs <- rhs$Significant
@@ -94,8 +125,20 @@ gnet<-function (df, rhs, top = 50, pvalue.cutoff = 0.05, padj.cutoff = NULL,
     names(gs) <- rownames(rhs)
   }
   V(g)$size <- log(gs[V(g)$name], base = 10) * 10
+  if(!is.null(vertex.node.shape)){
+    node.shape=rep(20,length(V(g)$name))
+    names(node.shape)<-V(g)$name
+    node.shape[names(vertex.node.shape)]<-vertex.node.shape
+   }else{
+    node.shape=rep(20,length(V(g)$name))
+    names(node.shape)<-V(g)$name
+  }
+
   p<-ggnet2(g, node.size = V(g)$size, node.color = V(g)$color,
-         edge.size = E(g)$width/10) + geom_text_repel(label = V(g)$name,size=vertex.label.cex,segment.size=0.2)+theme(legend.position = "none")
+         edge.size = E(g)$width/10,node.shape=node.shape,node.alpha=node.alpha) +
+    geom_text_repel(label = V(g)$name,
+                  size=vertex.label.cex,segment.size=segment.size,color=vertex.label.color)+
+    theme(legend.position = "none")
   print(p)
     if(savefig==TRUE){
     ggsave(p,file=paste(filename,"pdf",sep="."),width=width,height = height)

@@ -57,9 +57,21 @@ enrich<-function(df,annot,annot.info=NULL,minSize=1,maxSize=500,keepRich=TRUE,fi
 #' @param  top: Number of Terms you want to display
 #' @param  pvalue.cutoff: the cut-off value for selecting Term
 #' @param  padj.cutoff: the padj cut-off value for selecting Term
+#' @param low color used for small value
+#' @param high color used for large value
+#' @param fontsize.x fontsize for x axis
+#' @param fontsize.y fontsize for y axis
+#' @param horiz show horiz or not (default: FALSE)
+#' @param filename output filename
+#' @param width width for output file
+#' @param height height for output file
 #' @export
 #' @author Kai Guo
-enrichbar<-function(resultFis,top=50,pvalue.cutoff=0.05,padj.cutoff=NULL,order=FALSE,fontsize.x=10,fontsize.y=10,fontsize.text=3,angle=75,usePadj=TRUE,filename=NULL){
+enrichbar<-function(resultFis,top=50,pvalue.cutoff=0.05,padj.cutoff=NULL,
+                    low="lightpink",high="red",
+                    order=FALSE,horiz=FALSE,fontsize.x=10,fontsize.y=10,
+                    fontsize.text=3,angle=75,usePadj=TRUE,filename=NULL,
+                    width=10,height=8){
   require(ggplot2)
   if(!is.null(padj.cutoff)){
     resultFis<-resultFis[resultFis$Padj<padj.cutoff,]
@@ -80,29 +92,52 @@ enrichbar<-function(resultFis,top=50,pvalue.cutoff=0.05,padj.cutoff=NULL,order=F
   }
   if(usePadj==FALSE){
     p<-ggplot(resultFis,aes(x=Term,y=round(as.numeric(Significant/Annotated),2)))+geom_bar(stat="identity",aes(fill=-log10(as.numeric(Pvalue))))
-    p<-p+scale_fill_gradient(low="lightpink",high="red")+theme_light()+
-      theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle,vjust=1,hjust=1))+labs(fill="-log10(Pvalue)")
-    p<-p+geom_text(aes(label=Significant),vjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    p<-p+scale_fill_gradient(low=low,high=high)+theme_light()
+      if(horiz==TRUE){
+      p<-p+theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle))+labs(fill="-log10(Pvalue)")
+      p<-p+coord_flip()
+      p<-p+geom_text(aes(label=Significant),hjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    }else{
+      p<-p+theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle,vjust=1,hjust=1))+labs(fill="-log10(Pvalue)")
+      p<-p+geom_text(aes(label=Significant),vjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    }
     print(p)
   }else{
     p<-ggplot(resultFis,aes(x=Term,y=round(as.numeric(Significant/Annotated),2)))+geom_bar(stat="identity",aes(fill=-log10(as.numeric(Padj))))
-    p<-p+scale_fill_gradient2(low="lightpink",high="red")+theme_light()+
-      theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle,vjust=1,hjust=1))+labs(fill="-log10(Padj)")
-    p<-p+geom_text(aes(label=Significant),vjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    p<-p+scale_fill_gradient2(low=low,high=high)+theme_light()
+      if(horiz==TRUE){
+      p<-p+theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle))+labs(fill="-log10(Pvalue)")
+      p<-p+coord_flip()
+      p<-p+geom_text(aes(label=Significant),hjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    }else{
+      p<-p+theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x,angle=angle,vjust=1,hjust=1))+labs(fill="-log10(Pvalue)")
+      p<-p+geom_text(aes(label=Significant),vjust=-0.3,size=fontsize.text)+xlab("Annotation")+ylab("Rich Factor")+ylim(0,yheight)
+    }
     print(p)
   }
   if(!is.null(filename)){
-    ggsave(p,file=paste(filename,"enrich.pdf",sep="_"),width=10,height=8)
+    ggsave(p,file=paste(filename,"barplot.pdf",sep="_"),width=width,height=height)
   }
 }
 #' Display enrichment result By using dotchart
-#' @param  resultFis: Ennrichment analysis result data.frame
-#' @param  top: Number of Terms you want to display
-#' @param  pvalue.cutoff: the cut-off value for selecting Term
-#' @param  padj.cutoff: the padj cut-off value for selecting Term
+#' @param resultFis: Ennrichment analysis result data.frame
+#' @param top: Number of Terms you want to display
+#' @param pvalue.cutoff: the cut-off value for selecting Term
+#' @param padj.cutoff: the padj cut-off value for selecting Term
+#' @param low color used for small value
+#' @param high color used for large value
+#' @param alpha alpha-transparency scales
+#' @param fontsize.x fontsize for x axis
+#' @param fontsize.y fontsize for y axis
+#' @param filename output filename
+#' @param width width for output file
+#' @param height height for output file
 #' @export
 #' @author Kai Guo
-enrichdot<-function(resultFis,top=50,pvalue.cutoff=0.05,order=FALSE,padj.cutoff=NULL,fontsize.x=10,fontsize.y=10,usePadj=TRUE,filename=NULL){
+enrichdot<-function(resultFis,top=50,pvalue.cutoff=0.05,order=FALSE,
+                    low="lightpink",high="red",alpha=0.7,
+                    padj.cutoff=NULL,fontsize.x=10,fontsize.y=10,
+                    usePadj=TRUE,filename=NULL,width=10,height=8){
   library(ggplot2)
   if(!is.null(padj.cutoff)){
     resultFis<-resultFis[resultFis$Padj<padj.cutoff,]
@@ -120,20 +155,20 @@ enrichdot<-function(resultFis,top=50,pvalue.cutoff=0.05,order=FALSE,padj.cutoff=
       dd$Term<-factor(dd$Term,levels=dd$Term[order(dd$rich)])
     }
     if(usePadj==FALSE){
-      p<-ggplot(dd,aes(x=rich,y=Term))+geom_point(aes(size=Significant,color=-log10(Pvalue)))+
+      p<-ggplot(dd,aes(x=rich,y=Term))+geom_point(aes(size=Significant,color=-log10(Pvalue)),alpha=alpha)+
         theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x))+
-        scale_colour_gradient(low="lightpink",high="red")+theme_minimal()+ylab("Pathway name")+
+        scale_colour_gradient(low=low,high=high)+theme_minimal()+ylab("Pathway name")+
         xlab("Rich factor")+labs(size="Gene number")
       print(p)
     }else{
-      p<-ggplot(dd,aes(x=rich,y=Term))+geom_point(aes(size=Significant,color=-log10(Padj)))+
+      p<-ggplot(dd,aes(x=rich,y=Term))+geom_point(aes(size=Significant,color=-log10(Padj)),alpha=alpha)+
         theme(axis.text.y=element_text(face="bold",size=fontsize.y),axis.text.x=element_text(face="bold",color="black",size=fontsize.x))+
-        scale_colour_gradient(low="lightpink",high="red")+theme_minimal()+ylab("Pathway name")+
+        scale_colour_gradient(low=low,high=high)+theme_minimal()+ylab("Pathway name")+
         xlab("Rich factor")+labs(size="Gene number")
       print(p)
     }
       if(!is.null(filename)){
-        ggsave(p,file=paste(filename,"KEGG.pdf",sep="_"),width=10,height=9)
+        ggsave(p,file=paste(filename,"dotplot.pdf",sep="_"),width=width,height=height)
       }
     }else{
       cat("No Pathway enrichment results were found!\n")
