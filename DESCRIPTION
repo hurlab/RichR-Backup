@@ -1,7 +1,7 @@
-Package: RrichR
+Package: RichR
 Type: Package
 Title: Enrichment analysis
-Version: 0.1.0
+Version: 0.1.2
 Author: Kai Guo
 Maintainer: Kai Guo <guokai8@gmail.com>
 Description: Functional Enrichment Analysis and Network Construction 
@@ -29,6 +29,7 @@ Imports:
 LinkingTo: Rcpp
 Suggests:
     biomaRt,
+    GO.db,
     igraph,
     ggplot2,
     visNetwork,
@@ -36,5 +37,4 @@ Suggests:
     fgsea,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
-biocViews:GO.db,fgsea,biomaRt,AnnotationDbi,KEGGREST
+RoxygenNote: 6.1.1
