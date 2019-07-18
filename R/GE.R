@@ -1,4 +1,5 @@
 #' GO Enrichment analysis function
+#' @importFrom dplyr filter_
 #' @param df DGE files (DESeq2 result files) or vector contains gene names
 #' @param GO_FILE GO annotation data
 #' @param OP use BP,CC or MF
@@ -12,10 +13,9 @@
 #' @export
 #' @author Kai Guo
 GE<-function(df,GO_FILE,OP="BP",gene.cutoff=0.01,minSize=2,maxSize=500,keepRich=TRUE,filename=NULL,padj.method="BH",cutoff=0.05){
-  suppressMessages(require(tidyr))
   go2gene<-sf(GO_FILE)
-  all_go<-.get_go_dat(ont=OP)
-  go2gene<-go2gene[names(go2gene)%in%all_go$GOID];
+  all_go<-.get_go_dat(ont = OP)
+  go2gene<-go2gene[names(go2gene)%in%rownames(all_go)];
   gene2go<-reverseList(go2gene)
   if(is.data.frame(df)){
     IGE<-rownames(df)[df$padj<gene.cutoff]
@@ -31,19 +31,18 @@ GE<-function(df,GO_FILE,OP="BP",gene.cutoff=0.01,minSize=2,maxSize=500,keepRich=
   M<-name_table(go2gene[IGO])
   rhs<-hyper_bench_vector(k,M,N,n)
   lhs<-p.adjust(rhs,method=padj.method)
-  rhs_an<-all_go[all_go$GOID%in%names(rhs),1:2]
-  rownames(rhs_an)<-rhs_an[,1]
+  rhs_an<-all_go[names(rhs),]
   rhs_gene<-unlist(lapply(fgo2gene, function(x)paste(unique(x),sep="",collapse = ",")))
-  resultFis<-data.frame("Annot"=rhs_an$GOID,"Term"=rhs_an[names(rhs),"TERM"],"Annotated"=M[rhs_an$GOID],
-                        "Significant"=k[rhs_an$GOID],"Pvalue"=as.vector(rhs),"Padj"=lhs,
-                        "GeneID"=rhs_gene[as.vector(rhs_an$GOID)])
+  resultFis<-data.frame("Annot"=names(rhs),"Term"=rhs_an,"Annotated"=M[names(rhs)],
+                        "Significant"=k[names(rhs)],"Pvalue"=as.vector(rhs),"Padj"=lhs,
+                        "GeneID"=rhs_gene[as.vector(names(rhs))])
   resultFis<-resultFis[order(resultFis$Pvalue),]
   resultFis<-resultFis[resultFis$Pvalue<cutoff,]
-  resultFis<-resultFis%>%dplyr::filter(Significant<=maxSize)
+  resultFis<-filter_(resultFis, ~Significant<=maxSize)
   if(keepRich==FALSE){
-    resultFis<-resultFis%>%dplyr::filter(Significant>=minSize)
+    resultFis<-filter_(resultFis, ~Significant>=minSize)
   }else{
-    resultFis<-resultFis%>%dplyr::filter(Significant>=minSize|(Annotated/Significant)==1)
+    resultFis<-filter_(resultFis, ~Significant>=minSize|(~Annotated/~Significant)==1)
   }
   if(!is.null(filename)){
     write.table(resultFis,file=paste(filename,OP,"res.txt",sep="_"),sep="\t",quote=F,row.names=F)

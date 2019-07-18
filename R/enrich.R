@@ -1,10 +1,13 @@
 #' Enrichment analysis for any type of annotation data
-#' @param df: DGE files (DESeq2 result files) or vector contains gene names
-#' @param annot: annotation file for all genes
-#' @param annot.info: Term of all annotation
-#' @param filenam: output filename
-#' @param gene.cutoff: DGE singificant cutoff value
-#' @param padj.method: p value adjust method
+#' @importFrom dplyr filter_
+#' @importFrom magrittr %>%
+#' @param df DGE files (DESeq2 result files) or vector contains gene names
+#' @param annot annotation file for all genes
+#' @param annot.info Term of all annotation
+#' @param filename output filename
+#' @param gene.cutoff DGE singificant cutoff value
+#' @param padj.method p value adjust method
+#' @param keepRich keep terms with high rich factor
 #' @export
 #' @author Kai Guo
 enrich<-function(df,annot,annot.info=NULL,minSize=1,maxSize=500,keepRich=TRUE,filename=NULL,gene.cutoff=0.01,padj.method="BH"){
@@ -41,11 +44,11 @@ enrich<-function(df,annot,annot.info=NULL,minSize=1,maxSize=500,keepRich=TRUE,fi
   }
   resultFis<-resultFis[order(resultFis$Pvalue),]
   colnames(resultFis)[2]="Term"
-  resultFis<-resultFis%>%dplyr::filter(Significant<=maxSize)
+  resultFis<-resultFis%>%filter_(~Significant<=maxSize)
   if(keepRich==FALSE){
-    resultFis<-resultFis%>%dplyr::filter(Significant>=minSize)
+    resultFis<-resultFis%>%filter_(~Significant>=minSize)
   }else{
-    resultFis<-resultFis%>%dplyr::filter(Significant>=minSize|(Annotated/Significant)==1)
+    resultFis<-resultFis%>%filter_(~Significant>=minSize|(~Annotated/~Significant)==1)
   }
   if(!is.null(filename)){
     write.table(resultFis,file=paste(filename,".txt",sep=""),sep="\t",quote=F,row.names=F)
@@ -53,10 +56,10 @@ enrich<-function(df,annot,annot.info=NULL,minSize=1,maxSize=500,keepRich=TRUE,fi
   return(resultFis)
 }
 #' Display enrichment result By using barchart
-#' @param  resultFis: Ennrichment analysis result data.frame
-#' @param  top: Number of Terms you want to display
-#' @param  pvalue.cutoff: the cut-off value for selecting Term
-#' @param  padj.cutoff: the padj cut-off value for selecting Term
+#' @param  resultFis Ennrichment analysis result data.frame
+#' @param  top Number of Terms you want to display
+#' @param  pvalue.cutoff the cut-off value for selecting Term
+#' @param  padj.cutoff the padj cut-off value for selecting Term
 #' @param low color used for small value
 #' @param high color used for large value
 #' @param fontsize.x fontsize for x axis

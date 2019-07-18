@@ -2,26 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 hyper_bench_vector <- function(xin, yin, N, n) {
-    .Call('_RichR_hyper_bench_vector', PACKAGE = 'RichR', xin, yin, N, n)
+    .Call('_EnrichR_hyper_bench_vector', PACKAGE = 'EnrichR', xin, yin, N, n)
 }
 
 name_table <- function(lh) {
-    .Call('_RichR_name_table', PACKAGE = 'RichR', lh)
-}
-
-rcpp_hello_world <- function() {
-    .Call('_RichR_rcpp_hello_world', PACKAGE = 'RichR')
+    .Call('_EnrichR_name_table', PACKAGE = 'EnrichR', lh)
 }
 
 fast_factor <- function(x) {
-    .Call('_RichR_fast_factor', PACKAGE = 'RichR', x)
+    .Call('_EnrichR_fast_factor', PACKAGE = 'EnrichR', x)
 }
 
 sf <- function(x) {
-    .Call('_RichR_sf', PACKAGE = 'RichR', x)
+    .Call('_EnrichR_sf', PACKAGE = 'EnrichR', x)
 }
 
 uniq <- function(xa) {
-    .Call('_RichR_uniq', PACKAGE = 'RichR', xa)
+    .Call('_EnrichR_uniq', PACKAGE = 'EnrichR', xa)
 }
 
