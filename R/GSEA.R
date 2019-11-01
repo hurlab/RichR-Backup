@@ -1,7 +1,7 @@
 #' Enrichment analysis for any type of annotation data
-#' @param x a vector include all log2FC with gene name
+#' @param x a vector include all log2FC of all genes 
 #' @param annot annotation file for all genes
-#' @param annot.info Term with annotation details
+#' @param annot.info annotation terms with annotation details
 #' @param filename output filename
 #' @param padj.method p value adjust method
 #' @param nperm Number of permutations to do. Minimial possible nominal p-value is about 1/nperm
@@ -36,10 +36,10 @@ gsea<-function(x,annot,annot.info=NULL,minSize=15,maxSize=500,nperm=5000,filenam
 }
 #' @name plotgsea
 #' @title plot the gsea result
-#' @param x a vector include all log2FC with gene name
+#' @param x a vector include all log2FC of all genes 
 #' @param annot annotation file for all genes
 #' @param term the significant term
-#' @param annot.info Term with annotation details
+#' @param annot.info annotation terms with annotation details
 #' @param
 #' @importFrom fgsea plotEnrichment plotGseaTable
 #' @export
