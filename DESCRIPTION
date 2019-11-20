@@ -25,6 +25,7 @@ Imports:
     sna,
     intergraph,
     webshot,
+    msigdbr,
     KEGGREST
 LinkingTo: Rcpp
 Suggests:
