@@ -37,4 +37,6 @@ Suggests:
     fgsea,
     rmarkdown
 VignetteBuilder: knitr
+biocViews: Annotation, Clustering, GeneSetEnrichment, GO, KEGG,
+    MultipleComparison, Pathways, Reactome, Visualization
 RoxygenNote: 6.1.1
