@@ -55,6 +55,7 @@ makeplantann<-function(species="Arabidopsis t",host="plants.ensembl.org",ann_typ
     stop("You must specify one type of annotation!\n")
   }
   res<-res[nchar(res[,2])>1,]
+  colnames(res)[ncol(res)]<-"Annot"
   rownames(res)<-NULL
   return(res)
 }
@@ -85,6 +86,7 @@ makeesanno<-function(species="Human",host="uswest.ensembl.org",ann_type="GO"){
     stop("You must specify one type of annotation!\n")
   }
   res<-res[nchar(res[,2])>1,]
+  colnames(res)[ncol(res)]<-"Annot"
   rownames(res)<-NULL
   return(res)
 }
@@ -110,7 +112,7 @@ makeesanno<-function(species="Human",host="uswest.ensembl.org",ann_type="GO"){
     organism="Oryza_sativa"
   }
   if(mart@biomart=="plants_mart"){
-    pre_site="http://rest.ensemblgenomes.org/info/assembly/"
+    pre_site="http://rest.ensembl.org/info/assembly/"
   }else{
     pre_site="http://rest.ensembl.org/info/assembly/"
   }
