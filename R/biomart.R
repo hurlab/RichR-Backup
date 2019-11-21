@@ -45,6 +45,8 @@ makeplantann<-function(species="Arabidopsis t",host="plants.ensembl.org",ann_typ
   }else if(ann_type=="KEGG"){
    res<-getBM(attributes = c("ensembl_gene_id","kegg_enzyme"),filters ="chromosome_name",values = as.vector(dbinfo$chr_info$name),dataset)
    res[,2]<-sub('\\+.*','',res[,2])
+   #res$Annot<-kegg.db[res[,2],]
+   #res<-res[,c(1,3,2)]
   }else if(ann_type=="PFAM"){
    res<-getBM(attributes = c("ensembl_gene_id","pfam"),filters ="chromosome_name",values = as.vector(dbinfo$chr_info$name),dataset)
   }else if(ann_type=="InterPro"){
@@ -55,6 +57,10 @@ makeplantann<-function(species="Arabidopsis t",host="plants.ensembl.org",ann_typ
     stop("You must specify one type of annotation!\n")
   }
   res<-res[nchar(res[,2])>1,]
+  if(ann_type=="KEGG"){
+    res$Annot<-kegg.db[res[,2],]
+   # res<-res[,c(1,3,2)]
+  }
   colnames(res)[ncol(res)]<-"Annot"
   rownames(res)<-NULL
   return(res)
@@ -86,6 +92,10 @@ makeesanno<-function(species="Human",host="uswest.ensembl.org",ann_type="GO"){
     stop("You must specify one type of annotation!\n")
   }
   res<-res[nchar(res[,2])>1,]
+  if(ann_type=="KEGG"){
+    res$Annot<-kegg.db[res[,2],]
+    # res<-res[,c(1,3,2)]
+  }
   colnames(res)[ncol(res)]<-"Annot"
   rownames(res)<-NULL
   return(res)
