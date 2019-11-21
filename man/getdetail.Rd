@@ -9,7 +9,7 @@ getdetail(rese, resd)
 \arguments{
 \item{rese}{Functional enrichment results}
 
-\item{resd}{DEG result with one gene name column or vector of input genes}
+\item{resd}{DEG result with one column named as "gene" or rownames or vector of input genes}
 }
 \description{
 Get detail information from enrichment results

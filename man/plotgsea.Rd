@@ -7,13 +7,13 @@
 plotgsea(x, term, annot, gseaRes = NULL, annot.info = NULL)
 }
 \arguments{
-\item{x}{a vector include all log2FC with gene name}
+\item{x}{a vector include all log2FC of all genes}
 
 \item{term}{the significant term}
 
 \item{annot}{annotation file for all genes}
 
-\item{annot.info}{Term with annotation details}
+\item{annot.info}{annotation terms with annotation details}
 }
 \description{
 plot the gsea result

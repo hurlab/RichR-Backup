@@ -8,11 +8,11 @@ gsea(x, annot, annot.info = NULL, minSize = 15, maxSize = 500,
   nperm = 5000, filename = NULL, padj.method = "BH", table = TRUE)
 }
 \arguments{
-\item{x}{a vector include all log2FC with gene name}
+\item{x}{a vector include all log2FC of all genes}
 
 \item{annot}{annotation file for all genes}
 
-\item{annot.info}{Term with annotation details}
+\item{annot.info}{annotation terms with annotation details}
 
 \item{minSize}{Minimal size of a gene set to test. All pathways below the threshold are excluded.}
 
