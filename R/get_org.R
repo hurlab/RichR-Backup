@@ -67,6 +67,8 @@ makeKOdata<-function(species="human",keytype="ENTREZID",builtin=TRUE){
     KO_FILE=tmp
   }
   annot<-getann("KEGG")
+  KO_FILE[,1]<-as.vector(KO_FILE[,1])
+  KO_FILE[,2]<-as.vector(KO_FILE[,2])
   KO_FILE$Annot<-annot[KO_FILE[,2],"annotation"]
   return(KO_FILE)
 }
