@@ -1,7 +1,7 @@
 Package: RichR
 Type: Package
 Title: Enrichment analysis
-Version: 0.1.6
+Version: 0.1.7
 Author: Kai Guo
 Maintainer: Kai Guo <guokai8@gmail.com>
 Description: Functional Enrichment Analysis and Network Construction 
@@ -40,4 +40,4 @@ Suggests:
 VignetteBuilder: knitr
 biocViews: Annotation, Clustering, GeneSetEnrichment, GO, KEGG,
     MultipleComparison, Pathways, Reactome, Visualization
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
