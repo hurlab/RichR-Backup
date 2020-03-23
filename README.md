@@ -1,4 +1,5 @@
 ## RichR
+#### RichR have been changed to richR
 For Functional Enrichment Analysis and Network Construction 
 
 ## Description  
